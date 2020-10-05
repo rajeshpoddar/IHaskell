@@ -5,7 +5,6 @@ module IHaskell.Eval.Lint (lint) where
 import           IHaskellPrelude
 
 
-import           Data.Maybe (mapMaybe)
 import           System.IO.Unsafe (unsafePerformIO)
 
 #if MIN_VERSION_hlint(3,1,1)

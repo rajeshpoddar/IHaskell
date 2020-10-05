@@ -23,7 +23,6 @@ import           IHaskellPrelude
 import           Control.Concurrent (forkIO, threadDelay)
 import           Data.Foldable (foldMap)
 import           Prelude (head, tail, last, init)
-import           Data.List (nubBy)
 import qualified Data.Set as Set
 import           Data.Char as Char
 import           Data.Dynamic
@@ -35,15 +34,12 @@ import           System.IO (hGetChar, hSetEncoding, utf8)
 import           System.Random (getStdGen, randomRs)
 import           System.Process
 import           System.Exit
-import           Data.Maybe (mapMaybe)
 import           System.Environment (getEnv)
 
 import qualified GHC.Paths
 import           InteractiveEval
 import           DynFlags
-import           Exception (gtry)
 import           HscTypes
-import           GhcMonad (liftIO)
 import           GHC hiding (Stmt, TypeSig)
 import           Exception hiding (evaluate)
 import           Outputable hiding ((<>))

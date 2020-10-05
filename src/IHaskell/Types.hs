@@ -42,7 +42,6 @@ module IHaskell.Types (
 import           IHaskellPrelude
 
 import           Data.Aeson (ToJSON (..), Value, (.=), object)
-import           Data.Function (on)
 import           Data.Serialize
 import           GHC.Generics
 

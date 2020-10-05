@@ -49,10 +49,6 @@ import           Unify (tcMatchTys)
 import qualified Pretty
 import qualified Outputable as O
 
-import           Control.Monad (void)
-import           Data.Function (on)
-import           Data.List (nubBy)
-
 import           StringUtils (replace)
 
 #if MIN_VERSION_ghc(8,4,0)
