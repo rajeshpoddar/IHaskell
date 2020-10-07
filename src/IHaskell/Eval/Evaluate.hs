@@ -1093,7 +1093,7 @@ data Captured a = CapturedStmt String
 capturedEval :: (String -> IO ()) -- ^ Function used to publish intermediate output.
              -> Captured a -- ^ Statement to evaluate.
              -> Interpreter (String, ExecResult) -- ^ Return the output and result.
-capturedEval output stmt = do
+capturedEval _ stmt = do
   -- Generate random variable names to use so that we cannot accidentally override the variables by
   -- using the right names in the terminal.
   gen <- liftIO getStdGen
@@ -1176,8 +1176,11 @@ capturedEval output stmt = do
       ms = 1000
       delay = 100 * ms
 
-      -- Maximum size of the output (after which we truncate).
-      maxSize = 100 * 1000
+      readOutput = do
+        nextChunk <- gtry $ hGetContents pipe :: IO (Either SomeException String)
+        case nextChunk of
+          Left  _  -> return ()
+          Right xs -> modifyMVar_ outputAccum $ return . (++ xs)    
 
       loop = do
         -- Wait and then check if the computation is done.
@@ -1186,18 +1189,10 @@ capturedEval output stmt = do
 
         if not computationDone
           then do
-            -- Read next chunk and append to accumulator.
-            nextChunk <- readChars pipe "\n" 100
-            modifyMVar_ outputAccum (return . (++ nextChunk))
-
-            -- Write to frontend and repeat.
-            readMVar outputAccum >>= output
-            loop
+           readOutput
+           loop
           else do
-            -- Read remainder of output and accumulate it.
-            nextChunk <- readChars pipe "" maxSize
-            modifyMVar_ outputAccum (return . (++ nextChunk))
-
+            readOutput
             -- We're done reading.
             putMVar finishedReading True
 
