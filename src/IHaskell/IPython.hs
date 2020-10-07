@@ -48,8 +48,7 @@ data KernelSpecOptions =
 defaultKernelSpecOptions :: KernelSpecOptions
 defaultKernelSpecOptions = KernelSpecOptions
   { kernelSpecGhcLibdir = GHC.Paths.libdir
-  , kernelSpecRTSOptions = ["-M3g", "-N2"]  -- Memory cap 3 GiB,
-                                            -- multithreading on two processors.
+  , kernelSpecRTSOptions = ["-I0"]
   , kernelSpecDebug = False
   , kernelSpecCodeMirror = "ihaskell"
   , kernelSpecConfFile = defaultConfFile
